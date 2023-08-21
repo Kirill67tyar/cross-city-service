@@ -7,12 +7,12 @@ from django.core.validators import (
 
 class Orders:
     STATUS_CHOICE = (
-        ('new', 'New',),
-        ('read', 'Read',),
-        ('ready_to_be', 'Ready_to_be',),
-        ('in_process', 'In_process',),
-        ('completed', 'Completed',),
-        ('cancelled', 'Cancelled',),
+        ('new', 'New',),  # новый непрочитанный заказ
+        ('read', 'Read',),  # прочитанный заказ (водитель не найден)
+        ('ready_to_be', 'Ready_to_be',),  # заказ готов к исполнению (водитель найден)
+        ('in_process', 'In_process',),  # заказ выполняется в данный момент
+        ('completed', 'Completed',),  # заказ завершён
+        ('cancelled', 'Cancelled',),  # заказ по какой-то причине отменён
     )
     from_place = models.CharField(
         max_length=100,
