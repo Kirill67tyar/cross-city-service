@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'orders.apps.OrdersConfig',
     'drivers.apps.DriversConfig',
+    'discounts.apps.DiscountsConfig',
 ]
 
 MIDDLEWARE = [

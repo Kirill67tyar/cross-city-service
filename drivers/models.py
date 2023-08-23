@@ -7,5 +7,17 @@ class Drivers(models.Model)
     contact
     car
     
+Нужно составить модель CarClasses
+т.е. таблица с классами машин
+
+И непонятно, то ли её Orders привязывать к этой таблице, то ли Drivers
+
+Нужно создать таблицу Tariff, она для тарифов, для клиентов
 
 """
+
+
+class Drivers(models.Model):
+    name = models.CharField(max_length=60, verbose_name='Имя водителя')
+    contact = models.CharField(max_length=16, verbose_name='Телефон водителя')
+    car = models.CharField(max_length=255, verbose_name='Машина')
