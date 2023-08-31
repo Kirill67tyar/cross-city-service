@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.core.validators import (
     MinValueValidator,
@@ -5,7 +6,7 @@ from django.core.validators import (
 )
 
 
-class Orders:
+class Order(models.Model):
     STATUS_CHOICE = (
         ('new', 'New',),  # новый непрочитанный заказ
         ('read', 'Read',),  # прочитанный заказ (водитель не найден)
@@ -23,12 +24,18 @@ class Orders:
         verbose_name='Место прибытия'
     )
     travel_time = models.PositiveSmallIntegerField(  # от 0 до 32767 (под большим вопросом, нужно ли)
+        blank=True,
+        null=True,
         verbose_name='Время в пути'
     )
     distance = models.PositiveIntegerField(
+        blank=True,  # (под вопросом)
+        null=True,  # (под вопросом)
         verbose_name='Дистанция в км.'
     )
     departure_time = models.DateTimeField(
+        blank=True,  # (под вопросом)
+        null=True,  # (под вопросом)
         verbose_name='Время отправления'
     )
     driver = ...  # внешний ключ на таблицу Drivers
@@ -74,6 +81,15 @@ class Orders:
         ),
         verbose_name='Процент скидки'
     )
+
+    # скорее clean и переопределять save не надо
+    # def clean(self):
+    #     if self.from_place == self.to_place:
+    #         raise ValidationError('Маршрут отправления/прибытия должен быть изменен')
+    #
+    # def save(self, *args, **kwargs):
+    #     self.clean()
+    #     super().save(*args, **kwargs)
 
 
 """

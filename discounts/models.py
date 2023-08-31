@@ -19,7 +19,7 @@ PROFIT
 """
 
 
-class Discounts(models.Model):
+class Discount(models.Model):
     banner = models.CharField(
         max_length=255,
         verbose_name='Содержимое баннера'

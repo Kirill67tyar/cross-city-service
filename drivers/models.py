@@ -14,10 +14,25 @@ class Drivers(models.Model)
 
 Нужно создать таблицу Tariff, она для тарифов, для клиентов
 
+У каждого водителя по одной машине. Как сказала галя так, чтобы у водителя было 2 машине не бывает.
 """
 
 
-class Drivers(models.Model):
-    name = models.CharField(max_length=60, verbose_name='Имя водителя')
-    contact = models.CharField(max_length=16, verbose_name='Телефон водителя')
-    car = models.CharField(max_length=255, verbose_name='Машина')
+class Driver(models.Model):
+    name = models.CharField(
+        max_length=60,
+        verbose_name='Имя водителя'
+    )
+    contact = models.CharField(
+        max_length=16,
+        verbose_name='Телефон водителя'
+    )
+    car = models.CharField(
+        max_length=255,
+        verbose_name='Машина'
+    )
+    tariff = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name='Цена за километр'
+    )

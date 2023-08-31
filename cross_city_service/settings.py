@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     'drivers.apps.DriversConfig',
     'discounts.apps.DiscountsConfig',
+    'staff.apps.StaffConfig',
 ]
 
 MIDDLEWARE = [
