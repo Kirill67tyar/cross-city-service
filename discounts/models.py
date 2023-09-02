@@ -47,4 +47,12 @@ class Discount(models.Model):
         verbose_name_plural = 'Купоны'
 
     def __str__(self):
-        return f'{self.banner[:25]} (active - {self.active}, discount - {self.discount}%)'
+        """
+        Если у нас есть баннер, то для админки будет выводиться
+        только треть этого баннера.
+        Если баннера нет, то в админке будет выводиться <Empty>
+        """
+        banner_len = round(len(str(self.banner)) / 3)
+        if banner_len:
+            return f'{self.pk}) {self.banner[:banner_len]}... (active - {self.active}, discount - {self.discount}%)'
+        return '<Empty>'

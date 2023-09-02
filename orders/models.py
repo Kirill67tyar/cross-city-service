@@ -1,4 +1,5 @@
-from django.core.exceptions import ValidationError
+from decimal import Decimal
+
 from django.db import models
 from django.core.validators import (
     MinValueValidator,
@@ -11,7 +12,7 @@ class Order(models.Model):
         ('new', 'New',),  # новый непрочитанный заказ
         ('read', 'Read',),  # прочитанный заказ (водитель не найден)
         ('ready_to_be', 'Ready_to_be',),  # заказ готов к исполнению (водитель найден)
-        ('in_process', 'In_process',),  # заказ выполняется в данный момент
+        # ('in_process', 'In_process',),  # заказ выполняется в данный момент
         ('completed', 'Completed',),  # заказ завершён
         ('cancelled', 'Cancelled',),  # заказ по какой-то причине отменён
     )
@@ -23,23 +24,28 @@ class Order(models.Model):
         max_length=100,
         verbose_name='Место прибытия'
     )
-    travel_time = models.PositiveSmallIntegerField(  # от 0 до 32767 (под большим вопросом, нужно ли)
+    # travel_time - скорее всего не нужон
+    travel_time = models.PositiveSmallIntegerField(  # ? от 0 до 32767 (под большим вопросом, нужно ли)
         blank=True,
         null=True,
         verbose_name='Время в пути'
     )
     distance = models.PositiveIntegerField(
-        blank=True,  # (под вопросом)
-        null=True,  # (под вопросом)
+        blank=True,
+        null=True,
         verbose_name='Дистанция в км.'
     )
     departure_time = models.DateTimeField(
-        blank=True,  # (под вопросом)
-        null=True,  # (под вопросом)
         verbose_name='Время отправления'
     )
-    driver = ...  # внешний ключ на таблицу Drivers
-    car_class = ...  # внешний ключ на таблицу с классами машин
+    driver = models.ForeignKey(  # внешний ключ на таблицу Drivers
+        blank=True,
+        null=True,
+        to='drivers.Driver',
+        on_delete=models.SET_NULL,
+        related_name='orders',
+        verbose_name='Водитель'
+    )
     client = models.CharField(
         max_length=100,
         verbose_name='Клиент'
@@ -52,8 +58,20 @@ class Order(models.Model):
         max_length=255,
         verbose_name='Примечания к заказу'
     )
-    baby_chair = models.PositiveSmallIntegerField(max_length=15)
-    price = models.DecimalField(
+    baby_chair = models.PositiveSmallIntegerField(
+        default=0,
+        verbose_name='Количество детских кресел'
+    )
+    tariff = models.ForeignKey(
+        to='tariffs.Tariff',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name='Тариф'
+    )
+    price = models.DecimalField(  # !
+        blank=True,
+        null=True,
         max_digits=10,
         decimal_places=2,
         verbose_name='Цена поездки'
@@ -72,7 +90,17 @@ class Order(models.Model):
         auto_now=True,
         verbose_name='Заказ обнавлён'
     )
-    discount = ...  # внешний ключ на таблицу Discount
+    discount = models.ForeignKey(
+        to='discounts.Discount',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='orders',
+        verbose_name='Купон'
+    )
+
+    # обязательно проверь, MinValueValidator начинается от 0 включительно или нет
+    # с MaxValueValidator тоже проверь начинается от 0 включительно или нет
     discount_percent = models.IntegerField(  # поле под вопросом
         default=0,
         validators=(
@@ -82,14 +110,17 @@ class Order(models.Model):
         verbose_name='Процент скидки'
     )
 
-    # скорее clean и переопределять save не надо
-    # def clean(self):
-    #     if self.from_place == self.to_place:
-    #         raise ValidationError('Маршрут отправления/прибытия должен быть изменен')
-    #
-    # def save(self, *args, **kwargs):
-    #     self.clean()
-    #     super().save(*args, **kwargs)
+    # # Проверь эту функцию на баги обязательно,
+    # # потому что какой-то конфликт PyCharm выдаёт между Django Decimal и built-in Decimal
+    # # создай запись, и проверь как это работает на практике
+    # @property
+    # def get_total_cost(self):
+    #     return self.price - self.price * (self.discount_percent / Decimal('100'))  # Decimal('100')
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+        ordering = ('-departure_time',)
 
 
 """

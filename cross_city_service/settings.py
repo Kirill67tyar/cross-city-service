@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'drivers.apps.DriversConfig',
     'discounts.apps.DiscountsConfig',
     'staff.apps.StaffConfig',
+    'tariffs.apps.TariffsConfig',
 ]
 
 MIDDLEWARE = [
@@ -146,3 +147,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
+
+
+"""
+# -----------------------------------------------------------DB postgres
+PASSWORD = os.environ.get('PASSWORD')
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'blog',
+        'USER': 'postgres',
+        'PASSWORD': PASSWORD,
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+# -----------------------------------------------------------DB postgres
+"""
