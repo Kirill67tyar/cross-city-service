@@ -8,13 +8,19 @@ from django.core.validators import (
 
 
 class Order(models.Model):
+    NEW = 1
+    READ = 2
+    READY_TO_BE = 3
+    COMPLETED = 4
+    CANCELLED = 5
+
     STATUS_CHOICE = (
-        ('new', 'New',),  # новый непрочитанный заказ
-        ('read', 'Read',),  # прочитанный заказ (водитель не найден)
-        ('ready_to_be', 'Ready_to_be',),  # заказ готов к исполнению (водитель найден)
-        # ('in_process', 'In_process',),  # заказ выполняется в данный момент
-        ('completed', 'Completed',),  # заказ завершён
-        ('cancelled', 'Cancelled',),  # заказ по какой-то причине отменён
+        (NEW, 'Новый',),  # новый непрочитанный заказ
+        (READ, 'Прочитанный',),  # прочитанный заказ (водитель не найден)
+        (READY_TO_BE, 'Готов к исполнению',),  # заказ готов к исполнению (водитель найден)
+        # ('in_process', 'Выполняется',),  # заказ выполняется в данный момент
+        (COMPLETED, 'Завершён',),  # заказ завершён
+        (CANCELLED, 'Отменён',),  # заказ по какой-то причине отменён
     )
     from_place = models.CharField(
         max_length=100,
@@ -24,12 +30,12 @@ class Order(models.Model):
         max_length=100,
         verbose_name='Место прибытия'
     )
-    # travel_time - скорее всего не нужон
-    travel_time = models.PositiveSmallIntegerField(  # ? от 0 до 32767 (под большим вопросом, нужно ли)
-        blank=True,
-        null=True,
-        verbose_name='Время в пути'
-    )
+    # # travel_time - скорее всего не нужон
+    # travel_time = models.PositiveSmallIntegerField(  # ? от 0 до 32767 (под большим вопросом, нужно ли)
+    #     blank=True,
+    #     null=True,
+    #     verbose_name='Время в пути'
+    # )
     distance = models.PositiveIntegerField(
         blank=True,
         null=True,
@@ -69,11 +75,16 @@ class Order(models.Model):
         null=True,
         verbose_name='Тариф'
     )
-    price = models.DecimalField(  # !
+    # price = models.DecimalField(  # !
+    #     blank=True,
+    #     null=True,
+    #     max_digits=10,
+    #     decimal_places=2,
+    #     verbose_name='Цена поездки'
+    # )
+    price = models.PositiveIntegerField(  # !
         blank=True,
         null=True,
-        max_digits=10,
-        decimal_places=2,
         verbose_name='Цена поездки'
     )
     status = models.CharField(
@@ -90,32 +101,22 @@ class Order(models.Model):
         auto_now=True,
         verbose_name='Заказ обнавлён'
     )
-    discount = models.ForeignKey(
-        to='discounts.Discount',
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-        related_name='orders',
-        verbose_name='Купон'
-    )
 
     # обязательно проверь, MinValueValidator начинается от 0 включительно или нет
     # с MaxValueValidator тоже проверь начинается от 0 включительно или нет
     discount_percent = models.IntegerField(  # поле под вопросом
         default=0,
         validators=(
-            MinValueValidator(0),
-            MaxValueValidator(100),
+            MinValueValidator(0, message='Скидка не может быть меньше 0%'),
+            MaxValueValidator(100, message='Скидка не может быть больше 100%'),
         ),
         verbose_name='Процент скидки'
     )
 
-    # # Проверь эту функцию на баги обязательно,
-    # # потому что какой-то конфликт PyCharm выдаёт между Django Decimal и built-in Decimal
-    # # создай запись, и проверь как это работает на практике
-    # @property
-    # def get_total_cost(self):
-    #     return self.price - self.price * (self.discount_percent / Decimal('100'))  # Decimal('100')
+    def save(self, *args, **kwargs):
+        if not self.price:
+            self.price = int(self.distance) * int(self.tariff.price_per_km)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Заказ'

@@ -41,9 +41,7 @@ class Tariff(models.Model):
     quantity_seats = models.PositiveSmallIntegerField(
         verbose_name='Количество сидений'
     )  # unique - ?
-    price_per_km = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
+    price_per_km = models.PositiveIntegerField(
         verbose_name='Цена за километр'
     )
     # * с другой стороны, количество записей в Tariff будет не велико,

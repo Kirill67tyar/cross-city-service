@@ -33,13 +33,22 @@ class Driver(models.Model):
         verbose_name='Имя водителя'
     )
     contact = models.CharField(
-        max_length=16,
+        max_length=25,
         verbose_name='Телефон водителя'
     )
     car = models.CharField(
-        max_length=255,
+        max_length=100,
         verbose_name='Машина'
+    )
+    tariff = models.ForeignKey(
+        blank=True,
+        null=True,
+        to='tariffs.Tariff',
+        on_delete=models.SET_NULL,
+        verbose_name='Тариф'
     )
 
     class Meta:
-        pass
+        verbose_name = 'Водитель'
+        verbose_name_plural = 'Водители'
+        ordering = ('name',)
