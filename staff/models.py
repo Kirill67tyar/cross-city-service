@@ -1,20 +1,64 @@
 from django.db import models
 
+"""
+    Эти таблицы стоит продумать более тщательно, чем сейчас
+    Пока не знаю, как в них будут обновляться данные.
+    Это просто примерный набросок.
+    
+    В чём суть.
+    На странице сайта у нас будут средства связи: 
+    - обычный телефон
+    - whatsapp
+    - telegram
+    - почта (?)
+    
+    Надо продумать, как лучше доставать эти данные из
+    бэкенда.
+    Как сделать так, чтобы их легко можно было обновить при желании.
+"""
 
-class Info(models.Model):
-    """
-    data - вся инфа о компании
-    contacts - контакты
-    main_telephone - контакты
-    """
+#
+# def contact_default():
+#     return {
+#         'email': '',
+#         'numbers': [],
+#         'tg_name_user': '',
+#     }
+#
+#
+# class Info(models.Model):
+#     about_us = models.TextField(
+#         verbose_name='Информация о сервисе'
+#     )
+#     contact_info = models.JSONField(
+#         verbose_name='Контакты',
+#         default=contact_default
+#     )
+#     main_telephone = models.CharField(
+#         max_length=15,
+#         verbose_name='Главный телефон'
+#     )
+#
+#
+# class Vacancy(models.Model):
+#     position = models.CharField(
+#         max_length=100,
+#         verbose_name='Позиция'
+#     )
+#     type_vacancy = models.ForeignKey(
+#         to='staff.TypeVacancy',
+#         on_delete=models.CASCADE,
+#         verbose_name='Тип вакансии',
+#         related_name='vacancies'
+#     )
+#
+#
+# class TypeVacancy(models.Model):
+#     type_vacancy = models.CharField(
+#         max_length=50,
+#         verbose_name='Тип вакансии'
+#     )
 
-
-class Vacancy(models.Model):
-    pass
-
-
-class TypeVacancy(models.Model):
-    pass
 
 
 """
