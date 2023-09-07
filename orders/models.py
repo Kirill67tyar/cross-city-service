@@ -36,9 +36,10 @@ class Order(models.Model):
     #     null=True,
     #     verbose_name='Время в пути'
     # )
-    distance = models.PositiveIntegerField(
+    distance = models.PositiveSmallIntegerField(
         blank=True,
-        null=True,
+        default=0,
+        # null=True,  # ?!
         verbose_name='Дистанция в км.'
     )
     departure_time = models.DateTimeField(
@@ -60,19 +61,26 @@ class Order(models.Model):
         max_length=100,
         verbose_name='Телефон клиента'
     )
-    remark = models.CharField(
+    remark = models.CharField(  # TextField
+        # нужно для особых пометок:
+        #  - перевоз инвалида
+        #  - > 1 детского кресла
+        #  - нестандартные средства связи
+        #  - этничность водителя
         max_length=255,
         verbose_name='Примечания к заказу'
+
     )
-    baby_chair = models.PositiveSmallIntegerField(
-        default=0,
-        verbose_name='Количество детских кресел'
+    baby_chair = models.BooleanField(
+        default=False,
+        verbose_name='С детским креслом или нет'
     )
     tariff = models.ForeignKey(
         to='tariffs.Tariff',
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
+        related_name='orders',
         verbose_name='Тариф'
     )
     # price = models.DecimalField(  # !
@@ -84,13 +92,14 @@ class Order(models.Model):
     # )
     price = models.PositiveIntegerField(  # !
         blank=True,
-        null=True,
+        # null=True,
+        default=0,
         verbose_name='Цена поездки'
     )
     status = models.CharField(
         max_length=12,
         choices=STATUS_CHOICE,
-        default='new',
+        default=NEW,
         verbose_name='Статус заказа'
     )
     created = models.DateTimeField(

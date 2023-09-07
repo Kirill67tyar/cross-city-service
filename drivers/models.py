@@ -45,6 +45,7 @@ class Driver(models.Model):
         null=True,
         to='tariffs.Tariff',
         on_delete=models.SET_NULL,
+        related_name='drivers',
         verbose_name='Тариф'
     )
 

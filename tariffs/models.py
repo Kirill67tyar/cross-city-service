@@ -21,31 +21,61 @@ from django.db import models
     Универсал -35
     Комфорт+ 42
     Бизнес от 65...смотря,какие машины
-    Минивэн до 7 мест-51 руб км
-    После 8 мест 70 руб км
-    Спринтер до 19 мест 
+    Минивэн до 7 мест-51 руб км 
+        После 8 мест 70 руб км
+        5-10 мест
+    Спринтер от 11 до 19 мест 
     120 руб км
+    
     
     * два минивена на 7 и 8 мест
       можно сделать "Минивен стандартный" и "Минивен крупный"
       как названия
+      
+      ПОМЕТИТЬ, ЧТО ЕСТЬ ВОЗМОЖНОСТЬ ГРУЗОВЫХ ПЕРЕВОЗОК
+      НО Т.К. ГАЛЯ ДЕЛЕГИРУЕТ ДРУГИМ ОПЕРАТОРАМ, ОНА ЦЕНУ ВЫСЧИТЫВАТЬ
+      НЕ МОЖЕТ, ТАК ЧТО ДЛЯ ГРУЗОВЫХ ПЕРЕВОЗОК (ИЛИ АВТОБУСОВ БОЛЬШЕ 19)
+      ЦЕНА ВЫСЧИТЫВАЕТСЯ ИНДИВИДУАЛЬНО
 """
 
 
 class Tariff(models.Model):
+    PASSENGER = 1
+    MINIVAN = 2
+    SPRINTER = 3
+    BUS = 4
+    TRUCK = 5
+
+    QUANTITY_SEATS_CHOICE = (
+        (PASSENGER, '4 места',),
+        (MINIVAN, '5-10 мест',),
+        (SPRINTER, '11-19 мест',),
+        (BUS, '> 19 мест',),
+        (TRUCK, 'Грузоперевозки',),
+    )
     # max_length - количество под вопросов из-за минивенов
     car_class = models.CharField(
         max_length=20,
         verbose_name='Класс машины'
     )  # db_index - ?
-    quantity_seats = models.PositiveSmallIntegerField(
+    quantity_seats = models.CharField(
+        # был PositiveSmallIntegerField
+        max_length=15,
+        choices=QUANTITY_SEATS_CHOICE,
+        default=PASSENGER,
         verbose_name='Количество сидений'
     )  # unique - ?
-    price_per_km = models.PositiveIntegerField(
+    price_per_km = models.PositiveSmallIntegerField(
+        # или Decimal?
         verbose_name='Цена за километр'
     )
+
     # * с другой стороны, количество записей в Tariff будет не велико,
     # и имеет ли смысл db_index и unique хотя бы с этой точки зрения
-    pass
+    class Meta:
+        verbose_name = 'Тариф'
+        verbose_name_plural = 'Тарифы'
+        ordering = ('pk',)
 
-
+    def __str__(self):
+        return f'{self.pk}) {self.car_class} ({self.price_per_km} р. за км.)'
