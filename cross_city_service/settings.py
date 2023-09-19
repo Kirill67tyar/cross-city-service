@@ -46,11 +46,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'rest_framework',
     'orders.apps.OrdersConfig',
     'drivers.apps.DriversConfig',
     'staff.apps.StaffConfig',
     'tariffs.apps.TariffsConfig',
     'faq.apps.FaqConfig',
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [
@@ -159,9 +161,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # -------------------------------------------------------- for django debug toolbar
 # https://django-debug-toolbar.readthedocs.io/en/latest/index.html
 
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
+INTERNAL_IPS = ('127.0.0.1',)
 
 """
 # -----------------------------------------------------------DB postgres

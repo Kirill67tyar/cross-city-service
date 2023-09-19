@@ -16,11 +16,12 @@ from django.db import models
     Автобусы (до 20 мест+багаж) от 60 руб/км
     
 галин вариант:
-    Эконм-27 км
-    Ком -30 км
-    Универсал -35
-    Комфорт+ 42
-    Бизнес от 65...смотря,какие машины
+    4 места:
+        Эконм-27 км
+        Ком -30 км
+        Универсал -35
+        Комфорт+ 42
+        Бизнес от 65...смотря,какие машины
     Минивэн до 7 мест-51 руб км 
         После 8 мест 70 руб км
         5-10 мест
@@ -40,11 +41,11 @@ from django.db import models
 
 
 class Tariff(models.Model):
-    PASSENGER = 1
-    MINIVAN = 2
-    SPRINTER = 3
-    BUS = 4
-    TRUCK = 5
+    PASSENGER = 'PAS'
+    MINIVAN = 'MIN'
+    SPRINTER = 'SPR'
+    BUS = 'BUS'
+    TRUCK = 'TRU'
 
     QUANTITY_SEATS_CHOICE = (
         (PASSENGER, '4 места',),
@@ -53,20 +54,21 @@ class Tariff(models.Model):
         (BUS, '> 19 мест',),
         (TRUCK, 'Грузоперевозки',),
     )
-    # max_length - количество под вопросов из-за минивенов
-    car_class = models.CharField(
-        max_length=20,
+
+    car_class = models.CharField(  # db_index может здесь и имеет смысл
+        max_length=25,
         verbose_name='Класс машины'
-    )  # db_index - ?
+    )
     quantity_seats = models.CharField(
-        # был PositiveSmallIntegerField
-        max_length=15,
+        max_length=3,
         choices=QUANTITY_SEATS_CHOICE,
         default=PASSENGER,
         verbose_name='Количество сидений'
-    )  # unique - ?
+    )
     price_per_km = models.PositiveSmallIntegerField(
         # или Decimal?
+        null=True,
+        blank=True,
         verbose_name='Цена за километр'
     )
 
@@ -78,4 +80,6 @@ class Tariff(models.Model):
         ordering = ('pk',)
 
     def __str__(self):
-        return f'{self.pk}) {self.car_class} ({self.price_per_km} р. за км.)'
+        if self.price_per_km:
+            return f'{self.pk}) {self.car_class} ({self.price_per_km} р. за км.)'
+        return f'{self.pk}) {self.car_class}'

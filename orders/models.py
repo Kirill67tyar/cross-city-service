@@ -8,17 +8,14 @@ from django.core.validators import (
 
 
 class Order(models.Model):
-    NEW = 1
-    READ = 2
-    READY_TO_BE = 3
-    COMPLETED = 4
-    CANCELLED = 5
+    NEW = 'new'
+    READY = 'ready'
+    COMPLETED = 'completed'
+    CANCELLED = 'cancelled'
 
     STATUS_CHOICE = (
         (NEW, 'Новый',),  # новый непрочитанный заказ
-        (READ, 'Прочитанный',),  # прочитанный заказ (водитель не найден)
-        (READY_TO_BE, 'Готов к исполнению',),  # заказ готов к исполнению (водитель найден)
-        # ('in_process', 'Выполняется',),  # заказ выполняется в данный момент
+        (READY, 'Готов к исполнению',),  # заказ готов к исполнению (водитель найден)
         (COMPLETED, 'Завершён',),  # заказ завершён
         (CANCELLED, 'Отменён',),  # заказ по какой-то причине отменён
     )
@@ -58,8 +55,8 @@ class Order(models.Model):
         verbose_name='Клиент'
     )
     contact = models.CharField(
-        max_length=100,
-        verbose_name='Телефон клиента'
+        max_length=150,
+        verbose_name='Средство связи с клиентом'
     )
     remark = models.CharField(  # TextField
         # нужно для особых пометок:
@@ -67,9 +64,9 @@ class Order(models.Model):
         #  - > 1 детского кресла
         #  - нестандартные средства связи
         #  - этничность водителя
+        blank=True,
         max_length=255,
         verbose_name='Примечания к заказу'
-
     )
     baby_chair = models.BooleanField(
         default=False,
@@ -123,14 +120,21 @@ class Order(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        if not self.price:
-            self.price = int(self.distance) * int(self.tariff.price_per_km)
+        """
+            Установка окончательной цены невозможна в api
+            ею можно воспользоваться через админку
+            надо узнать, нужно ли гале это, или она всегда хочет устанавливать
+            цену вручную, чтобы не было путаницы
+        """
+        if self.price == 0:
+            if self.tariff:
+                self.price = int(self.distance) * int(self.tariff.price_per_km)
         super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
-        ordering = ('-departure_time',)
+        ordering = ('-created', '-departure_time',)
 
 
 """

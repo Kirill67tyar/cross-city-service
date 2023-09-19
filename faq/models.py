@@ -9,11 +9,11 @@ class Topic(models.Model):
     Generic Topics for FAQ question grouping
     """
     name = models.CharField(
-        max_length=150,
+        max_length=75,
         verbose_name='Тема'
     )
     slug = models.SlugField(  # под вопросов, в зависимости будет ли у нас под каждый вопрос/ответ свой url
-        max_length=150,
+        max_length=75,
         verbose_name='Slug'
     )
 
@@ -25,6 +25,7 @@ class Topic(models.Model):
     def __str__(self):
         return self.name
 
+    # get_absolute_url - под вопросом, какой будет
     def get_absolute_url(self):
         return '/faq/' + str(self.slug)
 
@@ -35,39 +36,31 @@ class Topic(models.Model):
 
 
 class Question(models.Model):
-    ANSWERED = 1
-    NOT_ANSWERED = 0
-    STATUS_CHOICES = (
-        (ANSWERED, 'Отвечен'),
-        (NOT_ANSWERED, 'Не отвечен'),
-    )
-
     text_question = models.TextField(verbose_name='Вопрос')
     answer = models.TextField(
         blank=True,
-        null=True,
         verbose_name='Ответ'
     )
     topic = models.ForeignKey(
-        to=Topic,
+        to='Topic',
         on_delete=models.CASCADE,
         related_name='questions',
         verbose_name='Тема'
     )
-    slug = models.SlugField(
-        verbose_name='Slug',
-        max_length=100
-    )
-    status = models.IntegerField(
-        choices=STATUS_CHOICES,
-        default=NOT_ANSWERED,
-        verbose_name='Статус'
+    # slug = models.SlugField(
+    #
+    #     verbose_name='Slug',
+    #     max_length=100
+    # )
+    status = models.BooleanField(
+        default=False,
+        verbose_name='Вопрос отвечен '
     )
 
     class Meta:
         verbose_name = 'Вопросы/Ответы'
         verbose_name_plural = 'Вопросы/Ответы'
-        ordering = ()
+        # ordering = ('-status',)
 
     def __str__(self):
         question_len = round(len(str(self.text_question)) / 3)
@@ -75,5 +68,6 @@ class Question(models.Model):
             return f'{self.pk}) {self.text_question[:question_len]}... ({self.status})'
         return '<Empty>'
 
+    @property
     def is_answered(self):
-        return self.status == Question.ANSWERED
+        return self.status

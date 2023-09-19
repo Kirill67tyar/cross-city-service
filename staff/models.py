@@ -17,6 +17,7 @@ from django.db import models
     Как сделать так, чтобы их легко можно было обновить при желании.
 """
 
+
 #
 # def contact_default():
 #     return {
@@ -24,7 +25,25 @@ from django.db import models
 #         'numbers': [],
 #         'tg_name_user': '',
 #     }
-#
+class Contact(models.Model):
+    phone = models.CharField(
+        max_length=12,
+        verbose_name='Телефонный номер'
+    )
+    whatsapp = models.CharField(
+        max_length=15,
+        verbose_name='Whatsapp'
+    )
+    telegram = models.CharField(
+        max_length=15,
+        verbose_name='Telegram'
+    )
+    
+    class Meta:
+        verbose_name = 'Мои контакты'
+        verbose_name_plural = 'Мои контакты'
+
+
 #
 # class Info(models.Model):
 #     about_us = models.TextField(
@@ -40,25 +59,27 @@ from django.db import models
 #     )
 #
 #
-# class Vacancy(models.Model):
-#     position = models.CharField(
-#         max_length=100,
-#         verbose_name='Позиция'
-#     )
-#     type_vacancy = models.ForeignKey(
-#         to='staff.TypeVacancy',
-#         on_delete=models.CASCADE,
-#         verbose_name='Тип вакансии',
-#         related_name='vacancies'
-#     )
-#
-#
-# class TypeVacancy(models.Model):
-#     type_vacancy = models.CharField(
-#         max_length=50,
-#         verbose_name='Тип вакансии'
-#     )
+class Vacancy(models.Model):
+    position = models.CharField(
+        max_length=100,
+        verbose_name='Позиция'
+    )
+    requirements = models.TextField(
+        verbose_name='Требования'
+    )
+    type_vacancy = models.ForeignKey(
+        to='staff.TypeVacancy',
+        on_delete=models.CASCADE,
+        verbose_name='Тип вакансии',
+        related_name='vacancies'
+    )
 
+
+class TypeVacancy(models.Model):
+    type_vacancy = models.CharField(
+        max_length=50,
+        verbose_name='Тип вакансии'
+    )
 
 
 """

@@ -20,8 +20,12 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('drivers/', include('drivers.urls', namespace='drivers')),
+    # path('api/', include('api.urls', namespace='api')),
     path('', include('orders.urls', namespace='orders')),
 ]
 
 if settings.DEBUG:
+    # for django debug toolbar
     urlpatterns.append(path('__debug__/', include('debug_toolbar.urls')))
+    urlpatterns.append(path('api/', include('api.urls', namespace='api')))

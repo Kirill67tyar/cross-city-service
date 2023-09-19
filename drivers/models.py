@@ -53,3 +53,6 @@ class Driver(models.Model):
         verbose_name = 'Водитель'
         verbose_name_plural = 'Водители'
         ordering = ('name',)
+
+    def __str__(self):
+        return f'{self.pk}) {self.name}'
