@@ -127,7 +127,7 @@ class Order(models.Model):
             цену вручную, чтобы не было путаницы
         """
         if self.price == 0:
-            if self.tariff:
+            if self.tariff and self.tariff.price_per_km:
                 self.price = int(self.distance) * int(self.tariff.price_per_km)
         super().save(*args, **kwargs)
 

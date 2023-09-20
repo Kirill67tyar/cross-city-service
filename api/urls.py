@@ -9,7 +9,7 @@ from api.views import (
 app_name = 'api'
 
 urlpatterns = [
-    path('tariffs/', TariffAPIView.as_view(), name='tariffs-list'),
+    path('tariffs/list/', TariffAPIView.as_view(), name='tariffs-list'),
     path('orders/create/', OrderCreateAPIView.as_view(), name='orders-create'),
-    path('contacts/<int:pk>/', ContactAPIView.as_view(), name='contacts-detail'),
+    path('contacts/detail/<int:pk>/', ContactAPIView.as_view(), name='contacts-detail'),
 ]

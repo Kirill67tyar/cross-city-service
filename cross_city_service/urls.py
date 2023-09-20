@@ -28,4 +28,6 @@ urlpatterns = [
 if settings.DEBUG:
     # for django debug toolbar
     urlpatterns.append(path('__debug__/', include('debug_toolbar.urls')))
-    urlpatterns.append(path('api/', include('api.urls', namespace='api')))
+
+urlpatterns.append(path('api/', include('api.urls', namespace='api')))
+

@@ -1,0 +1,1 @@
+web: gunicorn cross_city_service.wsgi --log-file -

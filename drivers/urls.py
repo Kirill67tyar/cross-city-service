@@ -1,9 +1,9 @@
 from django.urls import path
 
-from drivers.views import fixture_for_driver
+# from drivers.views import fixture_for_driver
 
 app_name = 'drivers'
 
 urlpatterns = [
-    path('insert_db/', fixture_for_driver, name='insert-db'),
+    # path('insert_db/', fixture_for_driver, name='insert-db'),
 ]
