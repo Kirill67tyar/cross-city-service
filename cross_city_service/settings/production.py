@@ -143,9 +143,9 @@ STATIC_URL = '/static/'
 
 # здесь мы указываем откуда будем доставать статику и подключать к шаблону,
 # с помощью тега {% static 'css/style.css' %}
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),
+# ]
 
 # здесь мы указываем куда django будет собирать всю статику проекта при команде collectstatic
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
