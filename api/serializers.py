@@ -26,7 +26,7 @@ class TariffListSerializer(ModelSerializer):
 
     class Meta:
         model = Tariff
-        fields = ['id', 'car_class', 'quantity_seats_display', ]  # 'price_per_km',
+        fields = ['id', 'car_class', 'quantity_seats_display', 'price_per_km', ]  # 'price_per_km',
         extra_kwargs = {
             'id': {
                 'read_only': True
@@ -36,9 +36,9 @@ class TariffListSerializer(ModelSerializer):
             },
             ## price_per_km - нужно отдавать в том случае, если нужно выводить цену за км. на сайте
             ## в идеале сделать так, чтобы фронт работал в обоих вариантах.
-            # 'price_per_km': {
-            #     'read_only': True
-            # },
+            'price_per_km': {
+                'read_only': True
+            },
         }
 
 

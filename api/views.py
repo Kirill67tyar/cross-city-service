@@ -1,3 +1,5 @@
+from django.views.decorators.csrf import csrf_protect, requires_csrf_token
+from django.utils.decorators import method_decorator
 from rest_framework.generics import (
     GenericAPIView,
     ListAPIView,
@@ -30,6 +32,8 @@ class TariffAPIView(ListAPIView):
     ]
 
 
+# @method_decorator(csrf_protect, name='post')
+# @method_decorator(requires_csrf_token, name='post')
 class OrderCreateAPIView(ListCreateAPIView):  # ListCreateAPIView CreateAPIView
     serializer_class = OrderCreateSerializer
     queryset = Order.objects.all()

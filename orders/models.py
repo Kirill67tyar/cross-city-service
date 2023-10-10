@@ -129,6 +129,13 @@ class Order(models.Model):
         if self.price == 0:
             if self.tariff and self.tariff.price_per_km:
                 self.price = int(self.distance) * int(self.tariff.price_per_km)
+
+        if self.driver is not None:
+            if self.status == self.NEW:
+                self.status = self.READY
+        else:
+            if self.status != self.CANCELLED:
+                self.status = self.NEW
         super().save(*args, **kwargs)
 
     class Meta:
