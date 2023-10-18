@@ -1,9 +1,11 @@
-from rest_framework.fields import SerializerMethodField
-from rest_framework.serializers import (CharField, ModelSerializer, )
+from rest_framework.fields import SerializerMethodField, ListField, IntegerField
+from rest_framework.serializers import (CharField, ModelSerializer, Serializer, )
+from rest_framework import serializers
 
-from tariffs.models import Tariff
-from staff.models import Contact
+from cities.models import City
 from orders.models import Order
+from staff.models import Contact
+from tariffs.models import Tariff
 
 
 class TariffListSerializer(ModelSerializer):
@@ -11,6 +13,12 @@ class TariffListSerializer(ModelSerializer):
         source='get_quantity_seats_display',
         read_only=True
     )
+    marks = serializers.SerializerMethodField(read_only=True)
+
+    def get_marks(self, obj):  # obj - экземпляр Note
+        if obj.marks:
+            return obj.marks.split(', ')
+        return []
 
     # quantity_seats_ids = SerializerMethodField(read_only=True)
     #
@@ -26,7 +34,7 @@ class TariffListSerializer(ModelSerializer):
 
     class Meta:
         model = Tariff
-        fields = ['id', 'car_class', 'quantity_seats_display', 'price_per_km', ]  # 'price_per_km',
+        fields = ['id', 'car_class', 'quantity_seats_display', 'price_per_km', 'photo', 'marks', ]
         extra_kwargs = {
             'id': {
                 'read_only': True
@@ -37,6 +45,9 @@ class TariffListSerializer(ModelSerializer):
             ## price_per_km - нужно отдавать в том случае, если нужно выводить цену за км. на сайте
             ## в идеале сделать так, чтобы фронт работал в обоих вариантах.
             'price_per_km': {
+                'read_only': True
+            },
+            'photo': {
                 'read_only': True
             },
         }
@@ -145,3 +156,24 @@ class ContactDetailSerializer(ModelSerializer):
                 'read_only': True,
             },
         }
+
+
+class CityListSerializer(ModelSerializer):
+    class Meta:
+        model = City
+        fields = [
+            'name',
+        ]
+        extra_kwargs = {
+            'name': {
+                'read_only': True,
+            }
+        }
+
+
+
+class CCitySerializer(serializers.Serializer):
+    pass
+    # name = CharField(max_length=25)
+
+

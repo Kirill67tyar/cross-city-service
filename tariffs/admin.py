@@ -30,6 +30,7 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Tariff)
 class TariffAdmin(admin.ModelAdmin):
+    fields = ('car_class', 'quantity_seats', 'price_per_km', 'photo',)
     list_display = (
         'car_class', 'quantity_seats',
     )

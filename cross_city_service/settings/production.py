@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'tariffs.apps.TariffsConfig',
     'faq.apps.FaqConfig',
     'api.apps.ApiConfig',
+    'cities.apps.CitiesConfig',
 ]
 
 MIDDLEWARE = [
@@ -160,6 +161,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://django-debug-toolbar.readthedocs.io/en/latest/index.html
 
 # INTERNAL_IPS = ('127.0.0.1',)
+
+# -------------------------------------------------------- for media
+MEDIA_URL = '/images/'
+
+# путь в файловой системе, где эти файлы будут храниться
+MEDIA_ROOT = os.path.join(STATIC_URL, 'images')
 
 """
 # -----------------------------------------------------------DB postgres
