@@ -30,8 +30,6 @@ from api.serializers import (
     TariffListSerializer,
     OrderCreateSerializer,
     ContactDetailSerializer,
-    CityListSerializer,
-    CCitySerializer,
 )
 
 
@@ -59,16 +57,6 @@ class OrderCreateAPIView(ListCreateAPIView):  # ListCreateAPIView CreateAPIView
 class ContactAPIView(RetrieveAPIView):
     serializer_class = ContactDetailSerializer
     queryset = Contact.objects.all()
-    http_method_names = [
-        'get',
-        'options',
-        'head',
-    ]
-
-
-class CitiesAPIView(ListAPIView):
-    serializer_class = CityListSerializer
-    queryset = City.objects.all()
     http_method_names = [
         'get',
         'options',

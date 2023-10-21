@@ -51,12 +51,13 @@ INSTALLED_APPS = [
     'faq.apps.FaqConfig',
     'api.apps.ApiConfig',
     'cities.apps.CitiesConfig',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -144,10 +145,9 @@ STATIC_URL = '/static/'
 
 # здесь мы указываем откуда будем доставать статику и подключать к шаблону,
 # с помощью тега {% static 'css/style.css' %}
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static'),
-# ]
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 # здесь мы указываем куда django будет собирать всю статику проекта при команде collectstatic
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # -------------------------------------------------------- static settings
@@ -166,8 +166,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/images/'
 
 # путь в файловой системе, где эти файлы будут храниться
-MEDIA_ROOT = os.path.join(STATIC_URL, 'images')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'storage')
 
+# -------------------------------------------------------- for CORS
+# SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+# CORS_ALLOWED_ORIGINS = ['*', ]
+CORS_ORIGIN_ALLOW_ALL = DEBUG
 """
 # -----------------------------------------------------------DB postgres
 

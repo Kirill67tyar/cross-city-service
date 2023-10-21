@@ -156,24 +156,3 @@ class ContactDetailSerializer(ModelSerializer):
                 'read_only': True,
             },
         }
-
-
-class CityListSerializer(ModelSerializer):
-    class Meta:
-        model = City
-        fields = [
-            'name',
-        ]
-        extra_kwargs = {
-            'name': {
-                'read_only': True,
-            }
-        }
-
-
-
-class CCitySerializer(serializers.Serializer):
-    pass
-    # name = CharField(max_length=25)
-
-
