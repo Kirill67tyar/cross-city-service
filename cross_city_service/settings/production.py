@@ -172,6 +172,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'storage')
 # SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 # CORS_ALLOWED_ORIGINS = ['*', ]
 CORS_ORIGIN_ALLOW_ALL = DEBUG
+CORS_ALLOW_ALL_ORIGINS = DEBUG
 """
 # -----------------------------------------------------------DB postgres
 
