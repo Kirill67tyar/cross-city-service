@@ -20,10 +20,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('drivers/', include('drivers.urls', namespace='drivers')),
-    path('api/', include('api.urls', namespace='api')),
-    path('', include('orders.urls', namespace='orders')),
+    path('core/adminka/', admin.site.urls),
+    # path('core/drivers/', include('drivers.urls', namespace='drivers')),
+    path('core/api/', include('api.urls', namespace='api')),
+    # path('core/', include('orders.urls', namespace='orders')),
 ]
 
 if settings.DEBUG:
