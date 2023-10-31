@@ -29,9 +29,9 @@ DB_PASSWORD = os.environ.get('DB_PASSWORD')
 DB_HOST = os.environ.get('DB_HOST')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'http://cross-city-taxi.ru',]
+ALLOWED_HOSTS = ['cross-city-taxi.ru',]
 
 # Application definition
 
