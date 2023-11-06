@@ -1,10 +1,7 @@
-import json
 from pprint import pprint as pp
 
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseForbidden
 from django.views.decorators.http import require_http_methods
-from django.views.decorators.csrf import csrf_protect, requires_csrf_token
-from django.utils.decorators import method_decorator
 
 from rest_framework.generics import (
     GenericAPIView,
@@ -13,14 +10,10 @@ from rest_framework.generics import (
     RetrieveAPIView,
     ListCreateAPIView,
 )
-from rest_framework.mixins import (
-    ListModelMixin,
-    CreateModelMixin,
-)
+
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 from rest_framework.decorators import api_view
-from rest_framework.views import APIView
 
 from cities.models import City
 from orders.models import Order
@@ -31,6 +24,7 @@ from api.serializers import (
     OrderCreateSerializer,
     ContactDetailSerializer,
 )
+from common.decorators import csrf_checking
 
 
 class TariffAPIView(ListAPIView):
@@ -52,6 +46,14 @@ class OrderCreateAPIView(ListCreateAPIView):  # ListCreateAPIView CreateAPIView
         'get',
         'post',
     ]
+
+    # @csrf_checking
+    def create(self, request, *args, **kwargs):
+        if request.COOKIES.get('csrftoken') == request.data.pop('csrf_token', ''):
+            return super().create(request, *args, **kwargs)
+        else:
+            return HttpResponseForbidden()
+        # return super().create(request, *args, **kwargs)
 
 
 class ContactAPIView(RetrieveAPIView):
