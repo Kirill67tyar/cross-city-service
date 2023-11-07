@@ -71,11 +71,10 @@ class Tariff(models.Model):
         blank=True,
         verbose_name='Цена за километр'
     )
-    photo = models.ImageField(  # models.URLField - здесь будет лучше
-        upload_to='tariffs/',   # или вообще CharField здесь обычный подойдёт
-        blank=True,
-        null=True,
-        verbose_name='Изображение'
+    photo = models.CharField(  # models.URLField - здесь будет лучше или вообще CharField здесь обычный подойдёт
+        max_length=40,
+        default='',
+        verbose_name='URL к изображению'
     )
 
     marks = models.CharField(

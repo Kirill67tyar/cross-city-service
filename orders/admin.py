@@ -70,7 +70,7 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('to_place', 'from_place', 'created', 'status',)
+    list_display = ('from_place', 'to_place', 'created', 'status',)
     list_filter = ('status',)
     search_fields = ('status', 'from_place', 'to_place', 'client', 'contact', 'remark',)
     # raw_id_fields = ('author',)  # благодаря этому атрибуту, появилась возможость искать автора не из списка
