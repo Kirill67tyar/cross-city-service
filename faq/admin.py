@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from faq.models import (
-    Topic, Question,
-)
+# from faq.models import (
+#     Topic, Question,
+# )
 
 """
 @admin.register(Product)
@@ -54,18 +54,18 @@ class Question(models.Model):
 """
 
 
-@admin.register(Topic)
-class TopicAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'slug',)
-    search_fields = ('pk', 'name', 'slug',)
-    prepopulated_fields = {'slug': ('name',)}  # поле которое автоматически преобразует slug в title
-    # raw_id_fields = ('author',)  # благодаря этому атрибуту, появилась возможость искать автора не из списка
-
-
-@admin.register(Question)
-class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'topic', 'status', )
-    list_filter = ('topic', 'status', )
-    search_fields = ('text_question', 'answer',)
-    # raw_id_fields = ('author',)  # благодаря этому атрибуту, появилась возможость искать автора не из списка
-    ordering = ('status',)
+# @admin.register(Topic)
+# class TopicAdmin(admin.ModelAdmin):
+#     list_display = ('pk', 'name', 'slug',)
+#     search_fields = ('pk', 'name', 'slug',)
+#     prepopulated_fields = {'slug': ('name',)}  # поле которое автоматически преобразует slug в title
+#     # raw_id_fields = ('author',)  # благодаря этому атрибуту, появилась возможость искать автора не из списка
+#
+#
+# @admin.register(Question)
+# class QuestionAdmin(admin.ModelAdmin):
+#     list_display = ('pk', 'topic', 'status', )
+#     list_filter = ('topic', 'status', )
+#     search_fields = ('text_question', 'answer',)
+#     # raw_id_fields = ('author',)  # благодаря этому атрибуту, появилась возможость искать автора не из списка
+#     ordering = ('status',)

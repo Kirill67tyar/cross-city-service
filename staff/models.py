@@ -59,27 +59,27 @@ class Contact(models.Model):
 #     )
 #
 #
-class Vacancy(models.Model):
-    position = models.CharField(
-        max_length=100,
-        verbose_name='Позиция'
-    )
-    requirements = models.TextField(
-        verbose_name='Требования'
-    )
-    type_vacancy = models.ForeignKey(
-        to='staff.TypeVacancy',
-        on_delete=models.CASCADE,
-        verbose_name='Тип вакансии',
-        related_name='vacancies'
-    )
-
-
-class TypeVacancy(models.Model):
-    type_vacancy = models.CharField(
-        max_length=50,
-        verbose_name='Тип вакансии'
-    )
+# class Vacancy(models.Model):
+#     position = models.CharField(
+#         max_length=100,
+#         verbose_name='Позиция'
+#     )
+#     requirements = models.TextField(
+#         verbose_name='Требования'
+#     )
+#     type_vacancy = models.ForeignKey(
+#         to='staff.TypeVacancy',
+#         on_delete=models.CASCADE,
+#         verbose_name='Тип вакансии',
+#         related_name='vacancies'
+#     )
+#
+#
+# class TypeVacancy(models.Model):
+#     type_vacancy = models.CharField(
+#         max_length=50,
+#         verbose_name='Тип вакансии'
+#     )
 
 
 """

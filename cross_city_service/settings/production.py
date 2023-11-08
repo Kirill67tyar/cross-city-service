@@ -168,7 +168,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/images/'
 
 # путь в файловой системе, где эти файлы будут храниться
-MEDIA_ROOT = os.path.join(BASE_DIR, 'storage')
+MEDIA_ROOT = '/app/media/'
 
 # -------------------------------------------------------- for CORS
 # SECURE_CROSS_ORIGIN_OPENER_POLICY = None
