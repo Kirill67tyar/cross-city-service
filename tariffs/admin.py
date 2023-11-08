@@ -40,5 +40,6 @@ class TariffAdmin(admin.ModelAdmin):
     search_fields = (
         'car_class', 'quantity_seats',
     )
+
     # raw_id_fields = ('author',)  # благодаря этому атрибуту, появилась возможость искать автора не из списка
     # date_hierarchy = 'publish'  # ссылки для навигации по датам (под поиском)

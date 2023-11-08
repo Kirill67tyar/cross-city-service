@@ -1,3 +1,4 @@
+from pprint import pprint as pp
 from django.db import models
 
 """
@@ -53,6 +54,24 @@ class Driver(models.Model):
         verbose_name = 'Водитель'
         verbose_name_plural = 'Водители'
         ordering = ('name',)
+
+    def save(self, *args, **kwargs):
+        marks = self.tariff.marks.split(', ')
+        if len(marks) < 5 and self.car not in marks:
+            if marks[0] == '':
+                self.tariff.marks = self.car
+            else:
+                self.tariff.marks += f', {self.car}'
+            self.tariff.save()
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        marks = self.tariff.marks.split(', ')
+        if self.car in marks:
+            marks.remove(self.car)
+            self.tariff.marks = ', '.join(marks)
+            self.tariff.save()
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return f'{self.pk}) {self.name}'
