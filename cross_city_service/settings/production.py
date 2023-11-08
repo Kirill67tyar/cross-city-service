@@ -31,7 +31,7 @@ DB_HOST = os.environ.get('DB_HOST')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['cross-city-taxi.ru',]
+ALLOWED_HOSTS = ['cross-city-taxi.ru', ]
 
 # Application definition
 
@@ -148,7 +148,7 @@ STATIC_URL = '/static/'
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, 'static'),
 # ]
-STATICFILES_DIRS = ['/app/staticfiles',]
+STATICFILES_DIRS = ['/app/staticfiles', ]
 
 # здесь мы указываем куда django будет собирать всю статику проекта при команде collectstatic
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -165,10 +165,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # INTERNAL_IPS = ('127.0.0.1',)
 
 # -------------------------------------------------------- for media
-MEDIA_URL = '/images/'
+# MEDIA_URL = '/images/'
 
 # путь в файловой системе, где эти файлы будут храниться
+
 MEDIA_ROOT = '/app/media/'
+
+MEDIA_URL = '/app/media/'
 
 # -------------------------------------------------------- for CORS
 # SECURE_CROSS_ORIGIN_OPENER_POLICY = None
