@@ -171,7 +171,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = '/app/media/'
 
-MEDIA_URL = '/app/media/'
+MEDIA_URL = '/media/'
 
 # -------------------------------------------------------- for CORS
 # SECURE_CROSS_ORIGIN_OPENER_POLICY = None
