@@ -40,6 +40,6 @@ class DriverAdmin(admin.ModelAdmin):
     list_display = ('name', 'car',)
     # list_filter = ('', '', '', '',)
     search_fields = ('name', 'car',)  # 'author__username'
-    ordering = ('pk',)
+    ordering = ('name',)
 
 

@@ -6,6 +6,9 @@ from cities.models import City
 from orders.models import Order
 from staff.models import Contact
 from tariffs.models import Tariff
+from feedback.models import (
+    FeedBack, Review,
+)
 
 
 class TariffListSerializer(ModelSerializer):
@@ -53,41 +56,6 @@ class TariffListSerializer(ModelSerializer):
         }
 
 
-"""
-    from_place = models.CharField
-    to_place = models.CharField
-    distance = models.PositiveSmallIntegerField
-    departure_time = models.DateTimeField
-    client = models.CharField
-    contact = models.CharField
-    remark = models.CharField
-    baby_chair = models.BooleanField
-    tariff = models.ForeignKey(
-        to='tariffs.Tariff',
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-        related_name='orders',
-        verbose_name='Тариф'
-    )
-    status = models.CharField
-        choices=STATUS_CHOICE,
-        default=NEW
-    )
-
-{
-    "from_place": "Лобня",
-    "to_place": "Икша",
-    "departure_time": "2023-09-17T20:04",
-    "client": "Ден",
-    "contact": "1488",
-    "baby_chair": false,
-    "tariff": 4
-}
-
-"""
-
-
 class OrderCreateSerializer(ModelSerializer):
     class Meta:
         model = Order
@@ -129,14 +97,6 @@ class OrderCreateSerializer(ModelSerializer):
         # }
 
 
-"""
-class Contact(models.Model):
-    phone = models.CharField
-    whatsapp = models.CharField
-    telegram = models.CharField
-"""
-
-
 class ContactDetailSerializer(ModelSerializer):
     class Meta:
         model = Contact
@@ -156,3 +116,50 @@ class ContactDetailSerializer(ModelSerializer):
                 'read_only': True,
             },
         }
+
+
+class FeedBackCreateSerializer(ModelSerializer):
+    # phone_number = serializers.CharField(max_length=25, required=False)
+    # email = serializers.CharField(max_length=60, required=False)
+
+    class Meta:
+        model = FeedBack
+        fields = [
+            'name',
+            'phone_number',
+            'email',
+            'message',
+        ]
+        extra_kwargs = {
+            # 'name': {
+            #     'write_only': True
+            # },
+            'phone_number': {
+                # 'write_only': True,
+                'allow_blank': True,
+            },
+            'email': {
+                # 'write_only': True,
+                'allow_blank': True,
+            },
+            # 'message': {
+            #     'write_only': True,
+            # },
+        }
+
+
+class ReviewCreateSerializer(ModelSerializer):
+    class Meta:
+        model = Review
+        fields = [
+            'name',
+            'message',
+        ]
+        # extra_kwargs = {
+        #     'name': {
+        #         'write_only': True
+        #     },
+        #     'message': {
+        #         'write_only': True
+        #     },
+        # }

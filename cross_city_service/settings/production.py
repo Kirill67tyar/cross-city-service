@@ -48,9 +48,9 @@ INSTALLED_APPS = [
     'drivers.apps.DriversConfig',
     'staff.apps.StaffConfig',
     'tariffs.apps.TariffsConfig',
-    'faq.apps.FaqConfig',
     'api.apps.ApiConfig',
     'cities.apps.CitiesConfig',
+    'feedback.apps.FeedbackConfig',
     'corsheaders',
 ]
 

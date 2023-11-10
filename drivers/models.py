@@ -42,7 +42,7 @@ class Driver(models.Model):
         verbose_name='Машина'
     )
     tariff = models.ForeignKey(
-        blank=True,
+        # blank=True,
         null=True,
         to='tariffs.Tariff',
         on_delete=models.SET_NULL,
@@ -56,13 +56,14 @@ class Driver(models.Model):
         ordering = ('name',)
 
     def save(self, *args, **kwargs):
-        marks = self.tariff.marks.split(', ')
-        if len(marks) < 5 and self.car not in marks:
-            if marks[0] == '':
-                self.tariff.marks = self.car
-            else:
-                self.tariff.marks += f', {self.car}'
-            self.tariff.save()
+        if self.tariff:
+            marks = self.tariff.marks.split(', ')
+            if len(marks) < 5 and self.car not in marks:
+                if marks[0] == '':
+                    self.tariff.marks = self.car
+                else:
+                    self.tariff.marks += f', {self.car}'
+                self.tariff.save()
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
