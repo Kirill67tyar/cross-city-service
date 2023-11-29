@@ -122,7 +122,7 @@ def cities_list_view(request):
     return Response(data=cities, status=HTTP_200_OK)
 
 
-@require_http_methods(['POST', ])
+@require_http_methods(['GET', ])
 @ensure_csrf_cookie
 def set_cookie_view(request):
     csrf_token = request.COOKIES.get('csrftoken')
