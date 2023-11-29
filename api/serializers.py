@@ -37,7 +37,9 @@ class TariffListSerializer(ModelSerializer):
 
     class Meta:
         model = Tariff
-        fields = ['id', 'car_class', 'quantity_seats_display', 'price_per_km', 'photo', 'marks', ]
+        fields = [
+            'id', 'car_class', 'quantity_seats_display', 'price_per_km', 'photo', 'marks',
+        ]
         extra_kwargs = {
             'id': {
                 'read_only': True
@@ -131,20 +133,12 @@ class FeedBackCreateSerializer(ModelSerializer):
             'message',
         ]
         extra_kwargs = {
-            # 'name': {
-            #     'write_only': True
-            # },
             'phone_number': {
-                # 'write_only': True,
                 'allow_blank': True,
             },
             'email': {
-                # 'write_only': True,
                 'allow_blank': True,
             },
-            # 'message': {
-            #     'write_only': True,
-            # },
         }
 
 
@@ -152,14 +146,13 @@ class ReviewCreateSerializer(ModelSerializer):
     class Meta:
         model = Review
         fields = [
+            'id',
             'name',
+            'date',
             'message',
         ]
-        # extra_kwargs = {
-        #     'name': {
-        #         'write_only': True
-        #     },
-        #     'message': {
-        #         'write_only': True
-        #     },
-        # }
+        extra_kwargs = {
+            'id': {
+                'read_only': True
+            },
+        }

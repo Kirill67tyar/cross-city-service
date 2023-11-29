@@ -66,7 +66,6 @@ class Tariff(models.Model):
         verbose_name='Количество сидений'
     )
     price_per_km = models.PositiveSmallIntegerField(
-        # или Decimal?
         null=True,
         blank=True,
         verbose_name='Цена за километр'
@@ -82,18 +81,17 @@ class Tariff(models.Model):
         verbose_name='Марки тарифа'
     )
 
+    sequence = models.PositiveSmallIntegerField(
+        default=1,
+        verbose_name='Порядок отображения на сайте'
+    )
+
     # * с другой стороны, количество записей в Tariff будет не велико,
     # и имеет ли смысл db_index и unique хотя бы с этой точки зрения
     class Meta:
         verbose_name = 'Тариф'
         verbose_name_plural = 'Тарифы'
-        ordering = ('pk',)
-
-    # def save(self, *args, **kwargs):
-    #     # self.marks = str(list(self.drivers.values_list('car', flat=True))).lstrip('[').rstrip(']')
-    #
-    #     self.marks = ', '.join(list(self.drivers.values_list('car', flat=True)))
-    #     super().save(*args, **kwargs)
+        ordering = ('sequence',)
 
     def __str__(self):
         if self.price_per_km:

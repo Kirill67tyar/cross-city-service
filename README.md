@@ -1,13 +1,43 @@
-# cross-city-service
-### Создание заказа:  
-    axios.post('https://cross-city-taxi.ru/core/api/orders/create/', {  
-            from_place: "Москва, улица такая-то...",  
-            to_place: "Лобня, караоке",  
-            departure_time: "2023-09-21T15:00:00Z",  
-            client: "Ден",  
-            contact: "89123321154",  
-            baby_chair: false,  
-            tariff: 1,  
-            csrf_token: "DASDGFsdfaadfSDFasdf342dsf"  
-    })
+### Получение csrf_token
+Должен приходить при любом GET-запросе. 
+
+Если при GET-запросе не грузится то должен грузиться так
+
+        axios.get('https://cross-city-taxi.ru/core/api/get-csrf-token/', {})
+### Статус код
+если 400, то невалидные данные
+
+если 403, то неправильный csrf_token
+### Создание заказа: 
+        axios.post('https://cross-city-taxi.ru/core/api/orders/create/', {  
+                from_place: "Москва, улица такая-то...",  
+                to_place: "Лобня, караоке",  
+                departure_time: "2023-09-21T15:00:00Z",  
+                client: "Ден",  
+                contact: "89123321154",  
+                baby_chair: false,  
+                tariff: 1,  
+                csrf_token: "DASDGFsdfaadfSDFasdf342dsf"  
+        })
+### Создание отзыва: 
+        axios.post('https://cross-city-taxi.ru/core/api/reviews/create/', {  
+                name: "str",
+                message: "str",
+                csrf_token: "DASDGFsdfaadfSDFasdf342dsf"  
+        })
+### Создание обращения: 
+        axios.post('https://cross-city-taxi.ru/core/api/feedback/create/', {  
+                name: "Имя какое-то",
+                phone_number: "str",
+                email: "str",
+                message: "str",
+                csrf_token: "DASDGFsdfaadfSDFasdf342dsf"  
+        })
+### Загрузка списка отзывов 
+        axios.get('https://cross-city-taxi.ru/core/api/reviews/list/', {})
+### Загрузка тарифов 
+        axios.get('https://cross-city-taxi.ru/core/api/tariffs/list/', {})
+### Загрузка городов 
+        axios.get('https://cross-city-taxi.ru/core/api/cities/list/', {})
+
 

@@ -5,6 +5,7 @@ from django.http import (
     HttpResponse,
     HttpResponseForbidden,
 )
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 
 from rest_framework.generics import (
@@ -81,7 +82,7 @@ class FeedbackCreateAPIView(ListCreateAPIView):  # ListCreateAPIView CreateAPIVi
         return super().create(request, *args, **kwargs)
 
 
-class ReviewCreateAPIView(ListCreateAPIView):  # ListCreateAPIView CreateAPIView
+class ReviewListCreateAPIView(ListCreateAPIView):  # ListCreateAPIView CreateAPIView
     serializer_class = ReviewCreateSerializer
     queryset = Review.published.all()
     http_method_names = [
@@ -121,10 +122,16 @@ def cities_list_view(request):
     return Response(data=cities, status=HTTP_200_OK)
 
 
-@require_http_methods(['GET', ])
-def get_csrf_token(request):
+@require_http_methods(['POST', ])
+@ensure_csrf_cookie
+def set_cookie_view(request):
     csrf_token = request.COOKIES.get('csrftoken')
     if csrf_token:
-        return JsonResponse({'csrf_token': csrf_token, }, json_dumps_params={'ensure_ascii': False})
-        # return Response({'csrf_token': csrf_token, }, status=HTTP_200_OK)
-    return HttpResponse(status=403)
+        return JsonResponse(
+            data={'csrf_token': csrf_token, },
+            json_dumps_params={'ensure_ascii': False}
+        )
+    return JsonResponse(
+        data={'Set-Cookie': True, },
+        json_dumps_params={'ensure_ascii': False}
+    )

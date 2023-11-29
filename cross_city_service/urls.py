@@ -32,6 +32,6 @@ urlpatterns = [
 #         document_root=settings.MEDIA_ROOT
 #     )
 # for django debug toolbar
-# urlpatterns.append(path('__debug__/', include('debug_toolbar.urls')))
+#     urlpatterns.append(path('__debug__/', include('debug_toolbar.urls')))
 
-# urlpatterns.append(path('api/', include('api.urls', namespace='api')))
+# urlpatterns.append(path('core/api/', include('api.urls', namespace='api')))
