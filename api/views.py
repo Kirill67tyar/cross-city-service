@@ -5,6 +5,8 @@ from django.http import (
     HttpResponse,
     HttpResponseForbidden,
 )
+from django.middleware.csrf import get_token
+from django.shortcuts import redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 
@@ -50,8 +52,6 @@ class TariffAPIView(ListAPIView):
     ]
 
 
-# @method_decorator(csrf_protect, name='post')
-# @method_decorator(requires_csrf_token, name='post')
 class OrderCreateAPIView(ListCreateAPIView):  # ListCreateAPIView CreateAPIView
     serializer_class = OrderCreateSerializer
     queryset = Order.objects.all()
@@ -60,12 +60,8 @@ class OrderCreateAPIView(ListCreateAPIView):  # ListCreateAPIView CreateAPIView
         'post',
     ]
 
-    @csrf_checking
+    # @csrf_checking
     def create(self, request, *args, **kwargs):
-        # if request.COOKIES.get('csrftoken') == request.data.pop('csrf_token', ''):
-        #     return super().create(request, *args, **kwargs)
-        # else:
-        #     return HttpResponseForbidden()
         return super().create(request, *args, **kwargs)
 
 
@@ -77,7 +73,7 @@ class FeedbackCreateAPIView(ListCreateAPIView):  # ListCreateAPIView CreateAPIVi
         'post',
     ]
 
-    @csrf_checking
+    # @csrf_checking
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
 
@@ -90,7 +86,7 @@ class ReviewListCreateAPIView(ListCreateAPIView):  # ListCreateAPIView CreateAPI
         'post',
     ]
 
-    @csrf_checking
+    # @csrf_checking
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
 
@@ -131,6 +127,28 @@ def set_cookie_view(request):
             data={'csrf_token': csrf_token, },
             json_dumps_params={'ensure_ascii': False}
         )
+    return JsonResponse(
+        data={'Set-Cookie': True, },
+        json_dumps_params={'ensure_ascii': False}
+    )
+
+
+# ----------------------------------------Эксперимантальные вьюхи для csrf
+@require_http_methods(['GET', ])
+def get_csrf_view(request):
+    csrf_token = request.COOKIES.get('csrftoken')
+    if csrf_token:
+        return JsonResponse(
+            data={'csrf_token': csrf_token, },
+            json_dumps_params={'ensure_ascii': False}
+        )
+    return redirect('api:set-csrf')
+
+
+@require_http_methods(['GET', ])
+@ensure_csrf_cookie
+def set_csrf_view(request):
+    # или используй функцию get_token
     return JsonResponse(
         data={'Set-Cookie': True, },
         json_dumps_params={'ensure_ascii': False}

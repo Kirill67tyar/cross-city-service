@@ -8,6 +8,8 @@ from api.views import (
     ReviewListCreateAPIView,
     FeedbackCreateAPIView,
     cities_list_view,
+    get_csrf_view,
+    set_csrf_view,
 )
 
 app_name = 'api'
@@ -20,5 +22,9 @@ urlpatterns = [
     path('feedback/create/', FeedbackCreateAPIView.as_view(), name='feedback-create'),
     path('cities/list/', cities_list_view, name='cities-list'),
     path('contacts/detail/<int:pk>/', ContactAPIView.as_view(), name='contacts-detail'),
-    path('get-csrf-token/', set_cookie_view, name='set-cookie-csrf'),
+    # path('get-csrf-token/', set_cookie_view, name='set-cookie-csrf'),
+
+    # Экспериментальные шаблоны для csrf:
+    # path('get-csrf/', get_csrf_view, name='get-csrf'),
+    # path('set-csrf/', set_csrf_view, name='set-csrf'),
 ]
