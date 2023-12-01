@@ -9,7 +9,6 @@
                 departure_time: "2023-09-21T15:00:00Z",  
                 client: "Ден",  
                 contact: "89123321154",  
-                baby_chair: false,  
                 tariff: 1
         })
 ### Создание отзыва: 
