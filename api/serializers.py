@@ -69,7 +69,7 @@ class OrderCreateSerializer(ModelSerializer):
             'contact',
             'baby_chair',
             'tariff',
-            'created',
+            # 'created',
         ]
         # extra_kwargs = {
         #     'from_place': {

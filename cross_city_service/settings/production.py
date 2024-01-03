@@ -29,7 +29,7 @@ DB_PASSWORD = os.environ.get('DB_PASSWORD')
 DB_HOST = os.environ.get('DB_HOST')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['cross-city-taxi.ru', ]
 
@@ -175,7 +175,8 @@ MEDIA_URL = '/media/'
 
 # -------------------------------------------------------- for CORS
 # SECURE_CROSS_ORIGIN_OPENER_POLICY = None
-CORS_ALLOWED_ORIGINS = ['http://cross-city-taxi.ru', 'http://localhost', 'http://cross-city-taxi.ru']
+CORS_ALLOWED_ORIGINS = ['http://cross-city-taxi.ru',
+                        'http://localhost', 'http://cross-city-taxi.ru']
 CORS_ORIGIN_ALLOW_ALL = DEBUG
 CORS_ALLOW_ALL_ORIGINS = DEBUG
 """
